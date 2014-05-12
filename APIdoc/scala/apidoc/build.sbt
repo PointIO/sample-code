@@ -1,4 +1,4 @@
-name := "pio"
+name := "apidoc"
 
 version := "1.0-SNAPSHOT"
 

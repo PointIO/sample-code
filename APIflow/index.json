@@ -3,7 +3,7 @@
     "apiVersion": "2.0",
     "swaggerVersion": "1.1",
     "nickname": "Point.io API",
-    "basePath": "http://localhost/sample-code/apiflow/tutorials",
+    "basePath": "https://raw.githubusercontent.com/PointIO/sample-code/master/APIflow/tutorials",
     "apis": [
         {
             "path": "/one.json",

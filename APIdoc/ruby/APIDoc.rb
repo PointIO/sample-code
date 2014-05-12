@@ -2,7 +2,7 @@ require 'net/http'
 require 'rubygems'
 require 'json'
 
-class Pio
+class APIDoc
 
 	def initialize(email, password, apiKey)
 		@BASE = "http://api.point.io/api/v2/"
@@ -152,10 +152,10 @@ end
 
 email, password, apiKey = "", "", ""
 
-pio = Pio.new(email, password, apiKey)
-key = pio.sessionKey()
-rules = pio.listAccessRules(key)
-folders = pio.listFolders(key, rules[2][1])
+APIDoc = APIDoc.new(email, password, apiKey)
+key = APIDoc.sessionKey()
+rules = APIDoc.listAccessRules(key)
+folders = APIDoc.listFolders(key, rules[2][1])
 
-upload = pio.fileUpload(key, folders[0][16], "test.txt", "test.txt", "upload.txt")
+upload = APIDoc.fileUpload(key, folders[0][16], "test.txt", "test.txt", "upload.txt")
 puts upload

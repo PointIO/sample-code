@@ -1,4 +1,4 @@
-package io.point;
+package io.point.apidoc;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -28,7 +28,7 @@ import java.util.*;
  * User: jconley
  * Date: 5/5/2014
  */
-public class Pio {
+public class APIDoc {
 
     private static CloseableHttpClient httpclient = HttpClients.createDefault();
     private static String BASE = "http://api.point.io/api/v2/";
@@ -361,64 +361,5 @@ public class Pio {
             }
         }
         return response;
-    }
-
-    public static void main(String[] args) throws Exception{
-        String email = "";
-        String password = "";
-        String apiKey = "";
-
-        String sessionKey = authenticate(email, password, apiKey);
-        ArrayNode accessRulesArray = listAccessRules(sessionKey);
-        JsonNode rule = accessRulesArray.get(2);
-
-        ArrayNode folderArray = listFolders(sessionKey, rule.get(1).getTextValue());
-        JsonNode folder = folderArray.get(5);
-        System.out.println(folder);
-
-        //grab first file
-        if(folder.get(2).getTextValue().equals("FILE")){
-            //preview
-//                    String previewUrl = filePreview(sessionKey, folder.get(16).asText(), folder.get(0).asText(), folder.get(1).asText());
-//                    System.out.println(previewUrl);
-
-            //download
-//                    String downloadUrl = fileDownload(sessionKey, folder.get(16).asText(), folder.get(0).asText(), folder.get(1).asText());
-//                    System.out.println(downloadUrl);
-
-            //create link
-//                    String linkUrl = fileCreateLink(sessionKey, folder.get(16).asText(), folder.get(0).asText(), folder.get(1).asText(), folder.get(4).asText(), folder.get(3).asText());
-//                    System.out.println(linkUrl);
-
-            //upload local file
-//                    String res = fileUpload(sessionKey, folder.get(16).asText(), "upload2.txt", "upload2.txt", "upload.txt");
-
-//            JsonNode res = checkout(sessionKey, folder.get(16).asText(), folder.get(0).asText(), folder.get(1).asText());
-//            System.out.println(res);
-        }
-
-        //storage types
-        ArrayNode storageTypes = listStorageTypes(sessionKey);
-        Iterator<JsonNode> storageArray = storageTypes.getElements();
-        while(storageArray.hasNext()){
-            JsonNode site = storageArray.next();
-            System.out.println(site);
-
-            ArrayNode params = getStorageSiteParams(sessionKey, site.get(0).asInt());
-            System.out.println(params);
-        }
-
-        //add Amazon S3 Storage site
-        ObjectNode params = JsonNodeFactory.instance.objectNode();
-        
-        String accessKeyId = "";
-        String secretAccessKey = "";
-        String bucketKey = "";
-
-        params.put("ACCESSKEYID", accessKeyId);
-        params.put("SECRETACCESSKEY", secretAccessKey);
-        params.put("BUCKET", bucket);
-
-        addStorageSite(sessionKey, 7, "Joe Test", getDefaultFlags(), params);
     }
 }

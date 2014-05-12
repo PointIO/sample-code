@@ -1,6 +1,6 @@
-package io.point.tutorials;
+package io.point.apidoc.tutorials;
 
-import io.point.Pio;
+import io.point.apidoc.APIDoc;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -15,16 +15,21 @@ import java.util.Iterator;
 public class AddStorageConnection {
 
     public static void main(String[] args) throws Exception{
-        String email = "";
-        String password = "";
-        String apiKey = "";
+        if(args.length != 3){
+            System.err.println("Valid arguments are email password apiKey");
+            System.exit(-1);
+        }
 
-        String sessionKey = authenticate(email, password, apiKey);
+        String email = args[0];
+        String password = args[1];
+        String apiKey = args[2];
 
-        ArrayNode storageTypesArray = Pio.listStorageTypes(sessionKey);
+        String sessionKey = APIDoc.authenticate(email, password, apiKey);
+
+        ArrayNode storageTypesArray = APIDoc.listStorageTypes(sessionKey);
         JsonNode firstType = storageTypesArray.get(0);
 
-        ArrayNode paramsArray = Pio.getStorageSiteParams(sessionKey, firstType.get(0).asInt());
+        ArrayNode paramsArray = APIDoc.getStorageSiteParams(sessionKey, firstType.get(0).asInt());
 
         ObjectNode params = JsonNodeFactory.instance.objectNode();
         Iterator<JsonNode> rootObjects = paramsArray.getElements();
@@ -33,6 +38,6 @@ public class AddStorageConnection {
             params.put(file.get(4).asText(), "");
         }
 
-        Pio.addStorageSite(sessionKey, firstType.get(0).asInt(), "Joe Test", Pio.getDefaultFlags(), params);
+        APIDoc.addStorageSite(sessionKey, firstType.get(0).asInt(), "Joe Test", APIDoc.getDefaultFlags(), params);
     }
 }

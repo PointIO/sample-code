@@ -3,9 +3,9 @@ using System;
 using System.Net;
 using System.IO;
 
-namespace Pio
+namespace APIDoc
 {
-    public class Pio
+    public class APIDoc
     {
         public static void Main() 
         {

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/pio.iml" filepath="$PROJECT_DIR$/pio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apidoc.iml" filepath="$PROJECT_DIR$/apidoc.iml" />
     </modules>
   </component>
 </project>

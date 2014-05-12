@@ -1,12 +1,16 @@
-email, password, apiKey = "", "" ,""
+import sys, getopt
 
-sessionKey = APIDoc_auth(email, password, apiKey)
+email, password, apiKey = sys.argv[1], sys.argv[2], sys.argv[3]
 
-accessRules = APIDoc_list_access_rules(sessionKey)
+exec(open("../APIDoc.py").read())
 
-folders = APIDoc_list_folders(sessionKey, accessRules["RESULT"]["DATA"][2][1])["RESULT"]["DATA"]
+sessionKey = auth(email, password, apiKey)
+
+accessRules = list_access_rules(sessionKey)
+
+folders = list_folders(sessionKey, accessRules["RESULT"]["DATA"][2][1])["RESULT"]["DATA"]
 
 for f in folders:
 	if(f[2] == "FILE"):
-		download = APIDoc_file_download(sessionKey, f[16], f[0], f[1])
+		download = file_download(sessionKey, f[16], f[0], f[1])
 		print(download)

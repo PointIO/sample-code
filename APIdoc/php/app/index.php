@@ -11,11 +11,11 @@
 			</tr>
 		<?php
 			include('controllers/APIDoc.php');
-			$rules = APIDoc_list_access_rules($_SESSION["sessionKey"])["RESULT"]["DATA"];
+			$rules = list_access_rules($_SESSION["sessionKey"])["RESULT"]["DATA"];
 
 			foreach($rules as $rule){
 
-				$list = APIDoc_list_folders($_SESSION["sessionKey"], $rule[1]);
+				$list = list_folders($_SESSION["sessionKey"], $rule[1]);
 				$folders = $list["RESULT"]["DATA"];
 				aasort($folders, 2);
 

@@ -1,15 +1,19 @@
-email, password, apiKey = "", "" ,""
+import sys, getopt
 
-sessionKey = APIDoc_auth(email, password, apiKey)
+exec(open("../APIDoc.py").read())
 
-storageTypes = APIDoc_list_storage_types(sessionKey)
+email, password, apiKey = sys.argv[1], sys.argv[2], sys.argv[3]
+
+sessionKey = auth(email, password, apiKey)
+
+storageTypes = list_storage_types(sessionKey)
 aws = storageTypes[0]
 
-params = APIDoc_list_storage_type_params(sessionKey, aws[0])
+params = list_storage_type_params(sessionKey, aws[0])
 paramsJson = {}
 for p in params:
 	paramsJson[p[4]] = ""
 
-flags = APIDoc_default_flags()
+flags = default_flags()
 
-APIDoc_create_storage_site(sessionKey, aws[0], "New Storage Site", flags, params)
+create_storage_site(sessionKey, aws[0], "New Storage Site", flags, params)

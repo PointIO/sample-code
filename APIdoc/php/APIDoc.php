@@ -2,7 +2,7 @@
 
 $BASE = "http://api.point.io/api/v2/";
 
-function APIDoc_auth($email, $password, $apiKey){
+function auth($email, $password, $apiKey){
 	global $BASE;
 	$bodyMap= array("email"=>$email, "password"=> $password, "apiKey"=> $apiKey);
 	$postString = http_build_query($bodyMap, '', '&');
@@ -18,7 +18,7 @@ function APIDoc_auth($email, $password, $apiKey){
 	return json_decode($response, true);
 }
 
-function APIDoc_list_access_rules($sessionKey){
+function list_access_rules($sessionKey){
 	global $BASE;
 	$ch = curl_init($BASE . "accessrules/list.json");
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: " . $sessionKey));
@@ -30,7 +30,7 @@ function APIDoc_list_access_rules($sessionKey){
 	return json_decode($response, true);	
 }
 
-function APIDoc_list_folders($sessionKey, $folderId){
+function list_folders($sessionKey, $folderId){
 	global $BASE;
 	$paramMap= array("folderId"=>$folderId);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -45,7 +45,7 @@ function APIDoc_list_folders($sessionKey, $folderId){
 	return json_decode($response, true);	
 }
 
-function APIDoc_file_preview($sessionKey, $folderid, $fileid, $filename){
+function file_preview($sessionKey, $folderid, $fileid, $filename){
 	global $BASE;
 	$paramMap= array("folderid"=>$folderid, "fileid"=>$fileid, "filename"=>$filename);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -60,7 +60,7 @@ function APIDoc_file_preview($sessionKey, $folderid, $fileid, $filename){
 	return json_decode($response, true);		
 }
 
-function APIDoc_file_download($sessionKey, $folderid, $fileid, $filename){
+function file_download($sessionKey, $folderid, $fileid, $filename){
 	global $BASE;
 	$paramMap= array("folderid"=>$folderid, "fileid"=>$fileid, "filename"=>$filename);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -75,7 +75,7 @@ function APIDoc_file_download($sessionKey, $folderid, $fileid, $filename){
 	return json_decode($response, true);		
 }
 
-function APIDoc_file_create_link($sessionKey, $shareid, $fileid, $filename, $remotepath, $containerid){
+function file_create_link($sessionKey, $shareid, $fileid, $filename, $remotepath, $containerid){
 	global $BASE;
 	$paramMap = array("shareid"=>$shareid, "fileid"=>$fileid, "filename"=>$filename, "remotepath"=>$remotepath, "containerid"=>$containerid);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -92,7 +92,7 @@ function APIDoc_file_create_link($sessionKey, $shareid, $fileid, $filename, $rem
 	return json_decode($response, true);		
 }
 
-function APIDoc_file_upload($sessionKey, $folderid, $fileid, $filename, $filecontents){
+function file_upload($sessionKey, $folderid, $fileid, $filename, $filecontents){
 	global $BASE;
 	$params = array("folderid"=>$folderid, "fileid"=>$fileid, "filename"=>$filename, "filecontents"=>"@".$filecontents);
 
@@ -108,7 +108,7 @@ function APIDoc_file_upload($sessionKey, $folderid, $fileid, $filename, $filecon
 	return json_decode($response, true);		
 }
 
-function APIDoc_file_checkout($sessionKey, $folderid, $fileid, $filename){
+function file_checkout($sessionKey, $folderid, $fileid, $filename){
 	global $BASE;
 	$paramMap= array("folderid"=>$folderid, "fileid"=>$fileid, "filename"=>$filename);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -123,7 +123,7 @@ function APIDoc_file_checkout($sessionKey, $folderid, $fileid, $filename){
 	return json_decode($response, true);		
 }
 
-function APIDoc_file_checkin($sessionKey, $folderid, $fileid, $filename){
+function file_checkin($sessionKey, $folderid, $fileid, $filename){
 	global $BASE;
 	$paramMap= array("folderid"=>$folderid, "fileid"=>$fileid, "filename"=>$filename);
 	$paramStr = http_build_query($paramMap, '', '&');
@@ -138,7 +138,7 @@ function APIDoc_file_checkin($sessionKey, $folderid, $fileid, $filename){
 	return json_decode($response, true);		
 }
 
-function APIDoc_list_storage_types($sessionKey){
+function list_storage_types($sessionKey){
 	global $BASE;
 
 	$ch = curl_init($BASE . "storagetypes/list.json");
@@ -151,7 +151,7 @@ function APIDoc_list_storage_types($sessionKey){
 	return json_decode($response, true);	
 }
 
-function APIDoc_list_storage_type_params($sessionKey, $siteTypeId){
+function list_storage_type_params($sessionKey, $siteTypeId){
 	global $BASE;
 
 	$ch = curl_init($BASE . "storagetypes/" . $siteTypeId . "/params.json");
@@ -169,7 +169,7 @@ function default_flags(){
 	return json_encode($flags);
 }
 
-function APIDoc_create_storage_site($sessionKey, $siteTypeId, $name, $flags, $siteArgs){
+function create_storage_site($sessionKey, $siteTypeId, $name, $flags, $siteArgs){
 	global $BASE;
 	$paramMap = array("siteTypeId"=>$siteTypeId, "name"=>$name, "siteArguments"=>$siteArgs, "flags"=> $flags);
 	$paramStr = http_build_query($paramMap, '', '&');

@@ -1,10 +1,10 @@
-package io.point
+package io.point.apidoc
 
 import dispatch._, Defaults._
 import play.api.libs.json._
 import com.ning.http.multipart.{StringPart, FilePart}
 
-object Pio {
+object APIDoc {
 
   lazy val BASE = "http://api.point.io/api/v2/"
 
@@ -122,37 +122,5 @@ object Pio {
     }
 
     Http(createSiteReq OK as.String).map( jsStr => jsStr)
-  }
-
-  def main(args: Array[String]) {
-
-    val (email, password, apiKey) = ("", "", "")
-
-    for {
-      keyJson <- authenticate(email, password, apiKey)
-      sessionKeyStr = keyJson.getOrElse(throw new Exception("Session key not found"))
-      accessRulesJson <- listAccessRules(sessionKeyStr)
-    } yield {
-      val accessRules = accessRulesJson.getOrElse(throw new Exception("Access rules not found"))
-      accessRules.value.foreach{ rule =>
-
-//        for{
-//          foldersJson <- listFolders(sessionKeyStr, rule(1).as[String])
-//          folders = foldersJson.getOrElse(throw new Exception("Folders not found"))
-//        } yield{
-//          folders.value.foreach(println)
-//        }
-      }
-
-      //upload file to last directory of last access rule
-      for{
-        foldersJson <- listFolders(sessionKeyStr, accessRules.value.last(1).as[String])
-        dir = foldersJson.getOrElse(throw new Exception("Folders not found")).value.filter(_.as[JsArray].apply(2).as[String] == "DIR").last.as[JsArray]
-//        uploadAsStr = DatatypeConverter.parseBase64Binary(Source.fromFile("upload.txt").getLines().mkString("\n")).mkString
-        uploadResponse <- fileUpload(sessionKeyStr, dir(16).as[String], "upload2.txt", "upload2.txt", "upload.txt")
-      } yield {
-        println(uploadResponse)
-      }
-    }
   }
 }

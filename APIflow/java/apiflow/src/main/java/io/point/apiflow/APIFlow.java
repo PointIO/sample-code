@@ -1,28 +1,22 @@
 package io.point.apiflow;
 
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.*;
 
 /**
  * User: jconley
@@ -70,7 +64,6 @@ public class APIFlow {
             HttpGet httpGet = new HttpGet(uri.build());
             res = httpclient.execute(httpGet);
             String resBody = EntityUtils.toString(res.getEntity());
-            System.out.println(resBody);
             response = (ArrayNode) mapper.readValue(resBody, JsonNode.class).get("REQUEST").get("PROCESSTYPES");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -83,84 +76,84 @@ public class APIFlow {
         return response;
     }
 
-//    public static ArrayNode listFolders(String sessionKey, String folderId) throws URISyntaxException, IOException {
-//        URIBuilder uri = new URIBuilder(BASE + "folders/list.json");
-//        uri.addParameter("folderId", folderId);
-//
-//        HttpGet httpGet = new HttpGet(uri.build());
-//        httpGet.addHeader("Authorization", sessionKey);
-//
-//        CloseableHttpResponse res = null;
-//        ArrayNode response = null;
-//        try {
-//            res = httpclient.execute(httpGet);
-//            String resBody = EntityUtils.toString(res.getEntity());
-//            response = (ArrayNode) mapper.readValue(resBody, JsonNode.class).get("RESULT").get("DATA");
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            res.close();
-//        }
-//
-//        return response;
-//    }
-//
-//    public static String filePreview(String sessionKey, String folderId, String fileId, String fileName) throws URISyntaxException, IOException {
-//        URIBuilder uri = new URIBuilder(BASE + "folders/files/preview.json");
-//        uri.addParameter("folderid", folderId);
-//        uri.addParameter("fileid", fileId);
-//        uri.addParameter("filename", fileName);
-//
-//        HttpGet httpGet = new HttpGet(uri.build());
-//        httpGet.addHeader("Authorization", sessionKey);
-//
-//        CloseableHttpResponse res = null;
-//        String response = null;
-//        try {
-//            res = httpclient.execute(httpGet);
-//            String resBody = EntityUtils.toString(res.getEntity());
-////            System.out.println(resBody);
-//            response = mapper.readValue(resBody, JsonNode.class).get("RESULT").asText();
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            res.close();
-//        }
-//
-//        return response;
-//    }
-//
-//    public static String fileDownload(String sessionKey, String folderId, String fileId, String fileName) throws URISyntaxException, IOException {
-//        URIBuilder uri = new URIBuilder(BASE + "folders/files/download.json");
-//        uri.addParameter("folderid", folderId);
-//        uri.addParameter("fileid", fileId);
-//        uri.addParameter("filename", fileName);
-//
-//        HttpGet httpGet = new HttpGet(uri.build());
-//        httpGet.addHeader("Authorization", sessionKey);
-//
-//        CloseableHttpResponse res = null;
-//        String response = null;
-//        try {
-//            res = httpclient.execute(httpGet);
-//            String resBody = EntityUtils.toString(res.getEntity());
-////            System.out.println(resBody);
-//            response = mapper.readValue(resBody, JsonNode.class).get("RESULT").asText();
-//        } catch (ClientProtocolException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            res.close();
-//        }
-//
-//        return response;
-//    }
-//
+    public static JsonNode startProcess(String sessionKey, String processName) throws IOException, URISyntaxException {
+        URIBuilder uri = new URIBuilder(BASE + "processes/" + processName);
+        uri.addParameter("Authorization", sessionKey);
+
+        HttpPost httpPost = new HttpPost(uri.build());
+        CloseableHttpResponse res = null;
+        JsonNode response = null;
+        try {
+            StringEntity body = new StringEntity("{}");
+            body.setContentType("application/json");
+
+            httpPost.setEntity(body);
+            res = httpclient.execute(httpPost);
+            String resBody = EntityUtils.toString(res.getEntity());
+            System.out.println(resBody);
+
+            JsonNode jsonBody = mapper.readValue(resBody, JsonNode.class);
+            response = jsonBody.get("REQUEST").get("PROCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(res != null){
+                res.close();
+            }
+        }
+        return response;
+    }
+
+    public static JsonNode getProcess(String sessionKey, int processId) throws IOException, URISyntaxException {
+        URIBuilder uri = new URIBuilder(BASE + "processes/" + processId);
+        uri.addParameter("Authorization", sessionKey);
+
+        CloseableHttpResponse res = null;
+        JsonNode response = null;
+        try {
+            HttpGet httpGet = new HttpGet(uri.build());
+            res = httpclient.execute(httpGet);
+            String resBody = EntityUtils.toString(res.getEntity());
+            System.out.println(resBody);
+            response = (JsonNode) mapper.readValue(resBody, JsonNode.class).get("RESPONSE").get("PROCESS");
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            res.close();
+        }
+
+        return response;
+    }
+
+    public static JsonNode completeTask(String sessionKey, int taskId, JsonNode bodyJson) throws URISyntaxException, IOException {
+        URIBuilder uri = new URIBuilder(BASE + "tasks/" + taskId);
+        uri.addParameter("Authorization", sessionKey);
+
+        CloseableHttpResponse res = null;
+        JsonNode response = null;
+        try {
+            HttpPut httpPut = new HttpPut(uri.build());
+
+            StringEntity body = new StringEntity(bodyJson.toString());
+            body.setContentType("application/json");
+            httpPut.setEntity(body);
+
+            res = httpclient.execute(httpPut);
+            String resBody = EntityUtils.toString(res.getEntity());
+            response = (JsonNode) mapper.readValue(resBody, JsonNode.class);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            res.close();
+        }
+
+        return response;
+    }
+
 //    public static String fileCreateLink(String sessionKey, String folderId, String fileId, String fileName, String remotePath, String containerId) throws IOException {
 //        HttpPost httpPost = new HttpPost(BASE + "links/create.json");
 //        httpPost.addHeader("Authorization", sessionKey);

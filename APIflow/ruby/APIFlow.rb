@@ -1,4 +1,5 @@
 require 'net/http'
+require 'uri'
 require 'rubygems'
 require 'json'
 
@@ -12,60 +13,31 @@ class APIFlow
 	end		
 
 	def sessionKey(email = @email, password = @password, apiKey = @apiKey)		
-		uri = URI(@BASE + "auth")
-		http = Net::HTTP.new(uri.host, uri.port)
-		req = Net::HTTP::Post.new(uri.path)
-		req.set_form_data({'email' => email, 'password' => password, 'apikey' => apiKey})
+		uri = URI(@BASE + "auth?email=" + URI.encode(email) + "&password=" + URI.encode(password) + "&apikey=" + URI.encode(apiKey))
+		res = Net::HTTP.post_form(uri, {})
 
-		puts req.inspect()
-
-		res = http.request(req)
-		puts res.body
 		JSON.parse(res.body)["RESULT"]["SESSIONKEY"]
 	end	
 
-	# def listAccessRules(sessionKey)
-	# 	uri = URI(@BASE + "accessrules/list.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
+	def listProcesstypes(sessionKey)
+		uri = URI(@BASE + "processtypes?Authorization=" + sessionKey)
+		res = Net::HTTP.get_response(uri)
+		JSON.parse(res.body)["REQUEST"]["PROCESSTYPES"]
+	end		
 
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end		
 
-	# def listFolders(sessionKey, folderId)
-	# 	uri = URI(@BASE + "folders/list.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"folderId" => folderId})
+	def startProcess(sessionKey, processName)
+		uri = URI(@BASE + "processes/" + processName + "?Authorization=" + sessionKey)
+		http = Net::HTTP.new(uri.host, uri.port)
+		req = Net::HTTP::Post.new(uri.path)
+		req["Content-Type"] = "application/json"
+		req.set_form_data({})
 
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
+		res = http.request(req)
 
-	# def filePreview(sessionKey, folderId, fileId, fileName)
-	# 	uri = URI(@BASE + "folders/files/preview.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"folderId" => folderId, "fileId" => fileId, "fileName" => fileName})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end
-
-	# def fileDownload(sessionKey, folderId, fileId, fileName)
-	# 	uri = URI(@BASE + "folders/files/download.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"folderId" => folderId, "fileId" => fileId, "fileName" => fileName})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
+		puts res.body
+		JSON.parse(res.body)["REQUEST"]["PROCESS"]
+	end		
 
 	# def fileUpload(sessionKey, folderId, fileId, fileName, filePath)
 	# 	uri = URI(@BASE + "folders/files/upload.json")

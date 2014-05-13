@@ -15,195 +15,66 @@ function auth(email, password, apiKey){
 	return sessionKey
 }
 
-function listAccessRules(sessionKey){
-	var rules = []
+function listProcesstypes(sessionKey){
+	var processtypes = []
 
 	$.ajax({
 	  type: "GET",
 	  async: false,
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "accessrules/list.json",
+	  url: BASE + "processtypes?Authorization=" + sessionKey,
 	  success: function(data){
-	  	rules = data.RESULT.DATA
+	  	processtypes = data.REQUEST.PROCESSTYPES
 	  }
 	});	
 
-	return rules
+	return processtypes
 }
 
-function listFolders(sessionKey, folderId){
-	var folders = []
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  data: {"folderId": folderId},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "folders/list.json",
-	  success: function(data){
-	  	folders = data.RESULT.DATA
-	  }
-	});	
-
-	return folders
-}
-
-function filePreview(sessionKey, folderId, fileId, fileName){
-	var preview = {};
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  data: {"folderid": folderId, "fileid": fileId, "filename": fileName},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "folders/files/preview.json",
-	  success: function(data){
-	  	preview = data
-	  }
-	});	
-
-	return preview
-}
-
-function fileDownload(sessionKey, folderId, fileId, fileName){
-	var download = {};
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  data: {"folderid": folderId, "fileid": fileId, "filename": fileName},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "folders/files/download.json",
-	  success: function(data){
-	  	download = data
-	  }
-	});	
-
-	return download
-}
-
-function fileCreateLink(sessionKey, folderId, fileId, fileName, remotePath, containerId){
-	var link = {};
+function startProcess(sessionKey, processName){
+	var proc = {};
 
 	$.ajax({
 	  type: "POST",
 	  async: false,
-	  data: {"shareid": folderId, "fileid": fileId, "filename": fileName, "remotepath": remotePath, "containerid": containerId},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "links/create.json",
+	  contentType: "application/json",
+	  data: {},
+	  url: BASE + "processes/" + processName + "?Authorization=" + sessionKey,
 	  success: function(data){
-	  	link = data
+	  	proc = data
 	  }
 	});	
 
-	return link
+	return proc
 }
 
-//TODO
-function fileUpload(sessionKey, folderId, fileId, formData){
- //    $.ajax({
-	//     url: BASE + "folders/files/upload.json",
-	//     type: 'POST',
-	//     data: formData,
-	//     success: function(data){
-	//     	console.log(data);
-	//     }
-	// });
-}
-
-function fileCheckout(sessionKey, folderId, fileId, fileName){
-	var res = {};
+function getProcess(sessionKey, processId){
+	var proc = {}
 
 	$.ajax({
 	  type: "GET",
 	  async: false,
-	  data: {"folderid": folderId, "fileid": fileId, "filename": fileName},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "folders/files/checkout.json",
+	  url: BASE + "processes/" + processId + "?Authorization=" + sessionKey,
+	  success: function(data){
+	  	proc = data.RESPONSE.PROCESS
+	  }
+	});	
+
+	return proc	
+}
+
+function completeTask(sessionKey, taskId){
+	var res = {}
+
+	$.ajax({
+	  type: "PUT",
+	  async: false,
+	  data: {},
+	  contentType: "application/json",
+	  url: BASE + "tasks/" + taskId + "?Authorization=" + sessionKey,
 	  success: function(data){
 	  	res = data
 	  }
 	});	
 
 	return res
-}
-
-function fileCheckin(sessionKey, folderId, fileId, fileName){
-	var res = {};
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  data: {"folderid": folderId, "fileid": fileId, "filename": fileName},
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "folders/files/checkin.json",
-	  success: function(data){
-	  	res = data
-	  }
-	});	
-
-	return res
-}
-
-function listStorageTypes(sessionKey){
-	var res = []
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "storagetypes/list.json",
-	  success: function(data){
-	  	res = data.RESULT.DATA
-	  }
-	});	
-
-	return res
-}
-
-function getStorageTypeParams(sessionKey, siteTypeId){
-	var res = []
-
-	$.ajax({
-	  type: "GET",
-	  async: false,
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "storagetypes/" + siteTypeId + "/params.json",
-	  success: function(data){
-	  	res = data.RESULT.DATA
-	  }
-	});	
-
-	return res
-}
-
-function defaultFlags(){
-	return {
-		"enabled": "1",
-		"loggingEnabled": "0",
-		"indexingEnabled": "0",
-		"revisionControl": "0",
-		"maxRevisions": "0",
-		"checkinCheckout": "0"
-	}
-}
-
-function createStorageSite(sessionKey, siteTypeId, name, flags, siteArguments){
-	var link = {};
-
-	var params = {"siteTypeId": siteTypeId, "name": name, "siteArguments": siteArguments}
-	for (var attrname in flags) { params[attrname] = flags[attrname]; }
-
-	$.ajax({
-	  type: "POST",
-	  async: false,
-	  data: params,
-	  headers: {"Authorization": sessionKey},
-	  url: BASE + "storagesites/create.json",
-	  success: function(data){
-	  	link = data
-	  }
-	});	
-
-	return link
 }

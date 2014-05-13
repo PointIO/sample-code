@@ -1,0 +1,38 @@
+<html>
+	<head>
+		<title>Point.io JS test</title>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		<script src="APIFlow.js"></script>		
+
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+		</div>
+	</body>
+</html>	
+
+<script>
+function start(email, password, apiKey){
+	var sessionKey = auth(email, password, apiKey)
+	var params = {'email' :  email ,  'password' :  password ,  'apiKey' :  apiKey}
+	console.log(sessionKey)
+}
+
+	
+	// var rules = listAccessRules(sessionKey)
+	// var folders = listFolders(sessionKey, rules[2][1])
+	
+	// var testFile = folders[5]
+	// var preview = filePreview(sessionKey, testFile[16], testFile[0], testFile[1])
+	// var download = fileDownload(sessionKey, testFile[16], testFile[0], testFile[1])
+	// var link = fileCreateLink(sessionKey, testFile[16], testFile[0], testFile[1], testFile[4], testFile[3])
+
+
+	// $('#formSubmit').click(function(){
+	//     var formData = new FormData($('form')[0]);
+	//     fileUpload(sessionKey, folderId, fileId, formData)
+	// });
+</script>

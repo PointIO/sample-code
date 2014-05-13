@@ -27,9 +27,10 @@
 </html>	
 
 <script>
-	var email, password, apiKey = ""
-
+function start(email, password, apiKey){
 	var sessionKey = auth(email, password, apiKey)
+	console.log(sessionKey)
+
 	var rules = listAccessRules(sessionKey)
 	var folders = listFolders(sessionKey, rules[2][1])
 	
@@ -37,7 +38,7 @@
 	var preview = filePreview(sessionKey, testFile[16], testFile[0], testFile[1])
 	var download = fileDownload(sessionKey, testFile[16], testFile[0], testFile[1])
 	var link = fileCreateLink(sessionKey, testFile[16], testFile[0], testFile[1], testFile[4], testFile[3])
-
+}
 
 	$('#formSubmit').click(function(){
 	    var formData = new FormData($('form')[0]);

@@ -1,0 +1,13 @@
+{
+    "resourcesPath": "http://api.point.io",
+    "apiVersion": "2.0",
+    "swaggerVersion": "1.1",
+    "nickname": "Point.io API",
+    "basePath": "https://raw.githubusercontent.com/PointIO/sample-code/master/APIflow/tutorials",
+    "apis": [
+        {
+            "path": "/one.json",
+            "description": "List folders and generate a doc page to preview."
+        }
+    ]
+}

@@ -15,7 +15,6 @@ for f in folders:
 		checkout = file_checkout(sessionKey, f[16], f[0], f[1])
 
 		download = file_download(sessionKey, f[16], f[0], f[1])
-
 		#follow download link, edit file, and upload
 		newFileContents = ""
 

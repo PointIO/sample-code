@@ -36,7 +36,7 @@ $(document).ready(function () {
 	prettyPrint();
 
 	window.swaggerUi = new SwaggerUi({
-	    discoveryUrl: "index.json",
+	    discoveryUrl: "http://point.io/sites/default/files/APIFlow.json",
 	    dom_id:"swagger-ui-container",
 	    supportHeaderParams: true,
 	    supportedSubmitMethods: ['get', 'post', 'put'],
@@ -53,8 +53,8 @@ $(document).ready(function () {
 				    cache: false
 				});
 	            
-	   //          $("#resource_CoreTutorialOne\\.json").append('<div id="CoreTutorialOneCode" class="hide"></div>')
-				// $( "#CoreTutorialOneCode" ).load( "code1.html" );	            
+	            $("#resource_FlowTutorialOne\\.json").append('<div id="FlowTutorialOneCode" class="hide"></div>')
+				$( "#FlowTutorialOneCode" ).load( "code1.html" );	            
 
 				// $("#resource_CoreTutorialTwo\\.json").append('<div id="CoreTutorialTwoCode" class="hide"></div>')
 				// $( "#CoreTutorialTwoCode" ).load( "code2.html" );	            

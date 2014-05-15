@@ -3,7 +3,7 @@ import urllib.parse
 import json
 import sys, getopt
 
-BASE = "http://pointflow.point.io/";
+BASE = "http://pf-staging.point.io/";
 
 def auth(email, password, apiKey):
 	params =  {'email' :  email ,  'password' :  password ,  'apikey' :  apiKey}
@@ -20,6 +20,12 @@ def startProcess(sessionKey, processName):
 	headers = {'content-type': 'application/json'}
 	r = requests.post(BASE + "processes/" + processName, params=params, data="{}", headers=headers)
 	return r.json()["REQUEST"]["PROCESS"]
+
+def startProcessWithMsg(sessionKey, messageName, messageJson="{}"):
+	params =  {'Authorization' :  sessionKey}
+	headers = {'content-type': 'application/json'}
+	r = requests.post(BASE + "messages/" + messageName, params=params, data="{}", headers=headers)
+	return r.json()["RESPONSE"]["PROCESSID"]
 
 def getProcess(sessionKey, processId):
 	params =  {'Authorization' :  sessionKey}

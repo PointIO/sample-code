@@ -12,7 +12,7 @@ import java.util.Iterator;
  * User: jconley
  * Date: 5/6/2014
  */
-public class BasicWorkflow {
+public class Simple {
 
     public static void main(String[] args) throws Exception{
         if(args.length != 3){
@@ -29,20 +29,20 @@ public class BasicWorkflow {
         //list all visible processtypes
         ArrayNode processTypesArray = APIFlow.listProcessTypes(sessionKey);
 
-        //find the process named "demo"
-        JsonNode demo = null;
+        //find the process named "simple"
+        JsonNode simple = null;
         Iterator<JsonNode> processTypes = processTypesArray.getElements();
         while(processTypes.hasNext()) {
             JsonNode processType = processTypes.next();
-            if(processType.get("name").asText().equals("demo")){
-                demo = processType;
+            if(processType.get("name").asText().equals("simple")){
+                simple = processType;
                 break;
             }
         }
 
-        //start demo process
-        System.out.println(demo);
-        JsonNode newProcessInstance = APIFlow.startProcess(sessionKey, demo.get("name").asText());
+        //start simple process
+        System.out.println(simple);
+        JsonNode newProcessInstance = APIFlow.startProcess(sessionKey, simple.get("name").asText());
 
         //get the process we just started
         JsonNode newProcess = APIFlow.getProcess(sessionKey, newProcessInstance.get("id").asInt());

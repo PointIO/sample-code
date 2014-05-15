@@ -1,0 +1,25 @@
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="point.io">
+    <message id="simpleMsg" name="simpleMsg"></message>
+
+    <process id="simple" name="simple" isExecutable="true">
+        <!-- start event -->
+        <startEvent id="start" name="StartProcess" />
+        <startEvent id="msgStart" name="simpleMsgStart">
+          <messageEventDefinition messageRef="simpleMsg"></messageEventDefinition>
+        </startEvent>
+
+
+        <!-- basic task - complete with empty body -->
+        <userTask id="task" name="Simple task" activiti:exclusive="false">
+            <documentation>Simple task</documentation>
+          </userTask>
+
+        <!-- end event -->
+        <endEvent id="end" name="EndProcess"/>
+
+        <!-- connections -->
+        <sequenceFlow id="_1a-_2" sourceRef="start" targetRef="task" />
+        <sequenceFlow id="_1b-_2" sourceRef="msgStart" targetRef="task" />
+        <sequenceFlow id="_2-_3" sourceRef="task" targetRef="end" />
+      </process>
+</definitions>

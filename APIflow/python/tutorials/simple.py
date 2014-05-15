@@ -9,7 +9,7 @@ sessionKey = auth(email, password, apiKey)
 processTypes = listProcesstypes(sessionKey)
 
 for d in processTypes:
-	if(d["name"] == "demo"):
+	if(d["name"] == "simple"):
 		procAck = startProcess(sessionKey, d["name"])
 		process = getProcess(sessionKey, procAck["id"])
 		for t in process["TASKS"]:

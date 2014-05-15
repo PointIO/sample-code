@@ -1,4 +1,4 @@
-var BASE = "http://pointflow.point.io/";
+var BASE = "http://pf-staging.point.io/";
 
 function auth(email, password, apiKey){
 	var sessionKey = ""

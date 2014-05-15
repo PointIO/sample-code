@@ -6,7 +6,7 @@ import com.ning.http.multipart.{StringPart, FilePart}
 
 object APIFlow {
 
-  lazy val BASE = "http://pointflow.point.io/"
+  lazy val BASE = "http://pf-staging.point.io/"
 
   def authenticate(email: String, password: String, apiKey: String): Future[JsResult[String]] = {
     val authUrl = url(BASE + "auth").POST
@@ -34,11 +34,23 @@ object APIFlow {
     }
   }
 
+  def startProcessWithMsg(sessionKey: String, messageName: String): Future[JsResult[Int]] = {
+    val startUrl = url(BASE + "messages/" + messageName).POST
+      .addQueryParameter("Authorization", sessionKey)
+      .setBody("{}")
+      .setHeader("Content-Type", "application/json")
+
+    Http(startUrl OK as.String).map { jsStr =>
+      println(jsStr)
+      (Json.parse(jsStr) \ "RESPONSE" \ "PROCESSID").validate[String].map(_.toInt)
+    }
+  }
+  
   def getProcess(sessionKey: String, processId: Int): Future[JsResult[JsObject]] = {
     val procUrl = url(BASE + "processes/" + processId).addQueryParameter("Authorization", sessionKey)
 
     Http(procUrl OK as.String).map { jsStr =>
-//      println(jsStr)
+      println(jsStr)
       (Json.parse(jsStr) \ "RESPONSE" \ "PROCESS").validate[JsObject]
     }
   }

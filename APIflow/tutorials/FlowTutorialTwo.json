@@ -51,58 +51,26 @@
             ]
         },
         {
-            "path": "/processtypes",
-            "operations": [
-                {
-                    "httpMethod": "GET",
-                    "summary": "Get process types",
-                    "notes": "output XML-encoded BPMN2.0",
-                    "dataType": "void",
-                    "nickname": "nickname",
-                    "authorizations": {},
-                    "parameters": [
-                        {
-                            "name": "Authorization",
-                            "description": "SESSIONKEY value provided by the /auth method.",
-                            "required": true,
-                            "dataType": "string",
-                            "paramType": "query"
-                        }
-                    ],
-                    "responseMessages": [
-                        {
-                            "code": 403,
-                            "message": "Not authorized to perform this action."
-                        },
-                        {
-                            "code": 500,
-                            "message": "Error completing action"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "path": "/processes/{name}",
+            "path": "/messages/{messageName}",
             "operations": [
                 {
                     "httpMethod": "POST",
-                    "summary": "Create (start) new process",
-                    "notes": "instantiates a process that does not have required starting variables",
+                    "summary": "Send (start) new message",
+                    "notes": "instantiates a process through the receipt of a structured message",
                     "dataType": "void",
                     "nickname": "nickname",
                     "authorizations": {},
                     "parameters": [
                         {
-                            "name": "name",
-                            "description": "Name of the process to fetch",
+                            "name": "messageName",
+                            "description": "ID of the process to fetch",
                             "required": true,
                             "dataType": "string",
                             "paramType": "path"
                         },
                         {
                             "name": "body",
-                            "description": "empty for now",
+                            "description": "JSON with defined structure",
                             "required": true,
                             "dataType": "Order",
                             "paramType": "body"
@@ -117,6 +85,10 @@
                     ],
                     "responseMessages": [
                         {
+                            "code": 401,
+                            "message": "Authentication failed"
+                        },
+                        {
                             "code": 403,
                             "message": "Not authorized to perform this action."
                         },
@@ -126,7 +98,7 @@
                         },
                         {
                             "code": 500,
-                            "message": "Error completing action"
+                            "message": "Error reading message"
                         }
                     ]
                 }
@@ -181,7 +153,7 @@
                     ]
                 }
             ]
-        }
+        }        
     ],
     "models": {
         "Result": {

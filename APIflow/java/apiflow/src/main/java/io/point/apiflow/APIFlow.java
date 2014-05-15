@@ -25,7 +25,7 @@ import java.net.URISyntaxException;
 public class APIFlow {
 
     private static CloseableHttpClient httpclient = HttpClients.createDefault();
-    private static String BASE = "http://pointflow.point.io/";
+    private static String BASE = "http://pf-staging.point.io/";
     private static ObjectMapper mapper = new ObjectMapper();
 
     public static String authenticate(String email, String password, String apiKey) throws IOException, URISyntaxException {
@@ -94,6 +94,34 @@ public class APIFlow {
 
             JsonNode jsonBody = mapper.readValue(resBody, JsonNode.class);
             response = jsonBody.get("REQUEST").get("PROCESS");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(res != null){
+                res.close();
+            }
+        }
+        return response;
+    }
+
+    public static Integer startProcessWithMsg(String sessionKey, String messageName) throws IOException, URISyntaxException {
+        URIBuilder uri = new URIBuilder(BASE + "messages/" + messageName);
+        uri.addParameter("Authorization", sessionKey);
+
+        HttpPost httpPost = new HttpPost(uri.build());
+        CloseableHttpResponse res = null;
+        Integer response = null;
+        try {
+            StringEntity body = new StringEntity("{}");
+            body.setContentType("application/json");
+
+            httpPost.setEntity(body);
+            res = httpclient.execute(httpPost);
+            String resBody = EntityUtils.toString(res.getEntity());
+            System.out.println(resBody);
+
+            JsonNode jsonBody = mapper.readValue(resBody, JsonNode.class);
+            response = jsonBody.get("RESPONSE").get("PROCESSID").asInt();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

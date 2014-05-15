@@ -8,6 +8,10 @@
         {
             "path": "/FlowTutorialOne.json",
             "description": "Start and complete a simple workflow."
+        },
+        {
+            "path": "/FlowTutorialTwo.json",
+            "description": "Start and complete a simple workflow via message."
         }
     ]
 }

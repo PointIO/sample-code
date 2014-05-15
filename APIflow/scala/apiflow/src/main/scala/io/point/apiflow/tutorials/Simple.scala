@@ -8,7 +8,7 @@ import play.api.libs.json.{JsArray, JsValue}
  * User: jconley
  * Date: 5/7/2014
  */
-object BasicWorkflow {
+object Simple {
   def main(args: Array[String]) {
     if(args.length != 3){
       System.err.println("Invalid args, must be email password apiKey")
@@ -22,8 +22,8 @@ object BasicWorkflow {
       sessionKey = sessionKeyRes.getOrElse(throw new Exception("Session key not found"))
       processTypesRes <- APIFlow.listProcessTypes(sessionKey)
       processTypes = processTypesRes.getOrElse(throw new Exception("Process types not found"))
-      demo = processTypes.value.find(js => (js \ "name").as[String] == "demo").getOrElse(throw new Exception("Demo process type does not exist!"))
-      processStartRes <- APIFlow.startProcess(sessionKey, (demo \ "name").as[String])
+      simple = processTypes.value.find(js => (js \ "name").as[String] == "simple").getOrElse(throw new Exception("Demo process type does not exist!"))
+      processStartRes <- APIFlow.startProcess(sessionKey, (simple \ "name").as[String])
       processStart = processStartRes.getOrElse(throw new Exception("Process not found"))
       newProcessRes <- APIFlow.getProcess(sessionKey, (processStart \ "id").as[String].toInt)
       newProcess = newProcessRes.getOrElse(throw new Exception("New Process not found"))

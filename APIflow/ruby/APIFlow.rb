@@ -6,7 +6,7 @@ require 'json'
 class APIFlow
 
 	def initialize(email, password, apiKey)
-		@BASE = "http://pointflow.point.io/"
+		@BASE = "http://pf-staging.point.io/"
 		@email = email
 		@password = password
 		@apiKey = apiKey			
@@ -25,19 +25,48 @@ class APIFlow
 		JSON.parse(res.body)["REQUEST"]["PROCESSTYPES"]
 	end		
 
-
 	def startProcess(sessionKey, processName)
-		uri = URI(@BASE + "processes/" + processName + "?Authorization=" + sessionKey)
-		http = Net::HTTP.new(uri.host, uri.port)
-		req = Net::HTTP::Post.new(uri.path)
-		req["Content-Type"] = "application/json"
-		req.set_form_data({})
+		uri = URI(@BASE + "processes/" + processName)
+
+		http = Net::HTTP.new(uri.host, uri.port)		
+		req = Net::HTTP::Post.new(uri.path + "?Authorization=" + sessionKey)
+		req.body = "{}"
+		req.content_type = 'application/json'
 
 		res = http.request(req)
-
-		puts res.body
 		JSON.parse(res.body)["REQUEST"]["PROCESS"]
 	end		
+
+	def startProcessWithMsg(sessionKey, messageName, messageJson = "{}")
+		uri = URI(@BASE + "messages/" + messageName)
+
+		http = Net::HTTP.new(uri.host, uri.port)		
+		req = Net::HTTP::Post.new(uri.path + "?Authorization=" + sessionKey)
+		req.body = messageJson
+		req.content_type = 'application/json'
+
+		res = http.request(req)
+		JSON.parse(res.body)["RESPONSE"]["PROCESSID"]
+	end	
+
+	def getProcess(sessionKey, processId)
+		uri = URI(@BASE + "processes/" + processId + "?Authorization=" + sessionKey)
+		res = Net::HTTP.get_response(uri)
+		JSON.parse(res.body)["RESPONSE"]["PROCESS"]
+	end		
+
+	def completeTask(sessionKey, taskId, bodyJson = "{}")
+		uri = URI(@BASE + "tasks/" + taskId)
+
+		http = Net::HTTP.new(uri.host, uri.port)		
+		req = Net::HTTP::Put.new(uri.path + "?Authorization=" + sessionKey)
+		req.body = bodyJson
+		req.content_type = 'application/json'
+
+		res = http.request(req)
+		JSON.parse(res.body)
+	end	
+
 
 	# def fileUpload(sessionKey, folderId, fileId, fileName, filePath)
 	# 	uri = URI(@BASE + "folders/files/upload.json")
@@ -51,80 +80,5 @@ class APIFlow
 
 	# 	res = http.request(req)
 	# 	JSON.parse(res.body)
-	# end	
-
-	# def fileCreateLink(sessionKey, folderId, fileId, fileName, remotePath, containerId)
-	# 	uri = URI(@BASE + "links/create.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Post.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"shareid" => folderId, "fileId" => fileId, "fileName" => fileName, "remotePath" => remotePath, "containerId" => containerId})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
-
-	# def fileCheckout(sessionKey, folderId, fileId, fileName)
-	# 	uri = URI(@BASE + "folders/files/checkout.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"folderId" => folderId, "fileId" => fileId, "fileName" => fileName})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
-
-	# def fileCheckin(sessionKey, folderId, fileId, fileName)
-	# 	uri = URI(@BASE + "folders/files/checkin.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"folderId" => folderId, "fileId" => fileId, "fileName" => fileName})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
-
-	# def listStorageTypes(sessionKey)
-	# 	uri = URI(@BASE + "storagetypes/list.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
-
-	# def listStorageTypeParams(sessionKey, siteTypeId)
-	# 	uri = URI(@BASE + "storagetypes/" + siteTypeId + "/list.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Get.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
-	# end	
-
-	# def defaultStorageFlags
-	# 	{
-	# 		"enabled"=> "1",
-	# 		"loggingEnabled"=> "0",
-	# 		"indexingEnabled"=> "0",
-	# 		"revisionControl"=> "0",
-	# 		"maxRevisions"=> "0",
-	# 		"checkinCheckout"=> "0"
-	# 	}
-	# end
-
-	# def createStorageSite(sessionKey, siteTypeId, name, flags, siteArguments = defaultStorageFlags())
-	# 	uri = URI(@BASE + "storagesites/create.json")
-	# 	http = Net::HTTP.new(uri.host, uri.port)
-	# 	req = Net::HTTP::Post.new(uri.path)
-	# 	req["Authorization"] = sessionKey
-	# 	req.set_form_data({"siteTypeId" => siteTypeId, "name" => name, "flags" => flags, "siteArguments" => siteArguments})
-
-	# 	res = http.request(req)
-	# 	JSON.parse(res.body)["RESULT"]["DATA"]
 	# end
 end

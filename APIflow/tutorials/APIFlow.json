@@ -1,0 +1,17 @@
+{
+    "resourcesPath": "http://api.point.io",
+    "apiVersion": "2.0",
+    "swaggerVersion": "1.1",
+    "nickname": "Point.io API",
+    "basePath": "http://www.point.io/sites/default/files",
+    "apis": [
+        {
+            "path": "/FlowTutorialOne.json",
+            "description": "Start and complete a simple workflow."
+        },
+        {
+            "path": "/FlowTutorialTwo.json",
+            "description": "Start and complete a simple workflow via message."
+        }
+    ]
+}

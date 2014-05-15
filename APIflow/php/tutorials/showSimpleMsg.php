@@ -1,0 +1,1 @@
+<?php show_source("simpleMsg.php"); ?>

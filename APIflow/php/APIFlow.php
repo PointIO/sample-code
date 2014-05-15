@@ -45,9 +45,24 @@ function startProcess($sessionKey, $processName){
 	$response = curl_exec($ch);
 	curl_close($ch);
 
-	echo $response;
-
 	return json_decode($response, true)["REQUEST"]["PROCESS"];
+}
+
+function startProcessWithMsg($sessionKey, $messageName){
+	global $BASE;
+	$bodyMap= array("Authorization" => $sessionKey, "");
+	$paramStr = http_build_query($bodyMap, '', '&');
+
+	$ch = curl_init($BASE . "messages/" . $messageName . "?" . $paramStr);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+	curl_setopt($ch, CURLOPT_POSTFIELDS, "{}");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$response = curl_exec($ch);
+	curl_close($ch);
+
+	return json_decode($response, true)["RESPONSE"]["PROCESSID"];
 }
 
 function getProcess($sessionKey, $processId){
@@ -81,21 +96,4 @@ function completeTask($sessionKey, $taskId){
 
 	return json_decode($response, true);
 }
-
-$sessionKey = auth($argv[1], $argv[2], $argv[3]);
-$processtypes = listProcesstypes($sessionKey);
-
-foreach($processtypes as $t){
-	if($t["name"] == "simple"){
-		$simple = $t;
-
-		$started = startProcess($sessionKey, $simple["name"]);
-		$process = getProcess($sessionKey, $started["id"]);
-		foreach($process["TASKS"] as $t){
-			$res = completeTask($sessionKey, $t["ID"]);
-			echo $res;
-		}
-	}
-}
-
 ?>

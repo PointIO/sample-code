@@ -4,6 +4,7 @@
 			  <li><a href="#jsThree" data-toggle="tab">JavaScript</a></li>
 			  <li><a href="#phpThree" data-toggle="tab">PHP</a></li>
 			  <li><a href="#pythonThree" data-toggle="tab">Python</a></li>
+			  <li><a href="#rubyThree" data-toggle="tab">Ruby</a></li>
 			  <li><a href="#scalaThree" data-toggle="tab">Scala</a></li>
 			</ul>
 
@@ -13,13 +14,27 @@
 			  <div class="tab-pane" id="jsThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="phpThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="pythonThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+			  <div class="tab-pane" id="rubyThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="scalaThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			</div>
 
 <script>
-$("#javaThree pre").load("java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersCreateLink.java")
-$("#jsThree pre").load("js/tutorials/listFoldersCreateLink.js")
-$("#phpThree pre").load("php/tutorials/listFoldersCreateLink.php")
-$("#pythonThree pre").load("python/tutorials/listFoldersCreateLink.py")
-$("#scalaThree pre").load("scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersCreateLink.scala")
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIdoc/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaThree"] = "java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersCreateLink.java"
+codeMap["jsThree"] = "js/tutorials/listFoldersCreateLink.js"
+codeMap["phpThree"] = "php/tutorials/listFoldersCreateLink.php"
+codeMap["pythonThree"] = "python/tutorials/listFoldersCreateLink.py"
+codeMap["rubyThree"] = "ruby/tutorials/listFoldersCreateLink.rb"
+codeMap["scalaThree"] = "scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersCreateLink.scala"
+
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
 </script>

@@ -4,7 +4,6 @@ import io.point.apidoc.APIDoc;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ArrayNode;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**

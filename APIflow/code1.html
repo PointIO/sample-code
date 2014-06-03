@@ -19,10 +19,22 @@
 			</div>
 
 <script>
-$("#javaOne pre").load("java/apiflow/src/main/java/io/point/apiflow/tutorials/Simple.java")
-$("#jsOne pre").load("js/tutorials/simple.js")
-$("#phpOne pre").load("php/tutorials/showSimple.php")
-$("#pythonOne pre").load("python/tutorials/simple.py")
-$("#rubyOne pre").load("ruby/tutorials/simple.rb")
-$("#scalaOne pre").load("scala/apiflow/src/main/scala/io/point/apiflow/tutorials/Simple.scala")
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIflow/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaOne"] = "java/apiflow/src/main/java/io/point/apiflow/tutorials/Simple.java"
+codeMap["jsOne"] = "js/tutorials/simple.js"
+codeMap["phpOne"] = "php/tutorials/showSimple.php"
+codeMap["pythonOne"] = "python/tutorials/simple.py"
+codeMap["rubyOne"] = "ruby/tutorials/simple.rb"
+codeMap["scalaOne"] = "scala/apiflow/src/main/scala/io/point/apiflow/tutorials/Simple.scala"
+
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
 </script>

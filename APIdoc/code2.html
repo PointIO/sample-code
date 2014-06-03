@@ -4,6 +4,7 @@
 			  <li><a href="#jsTwo" data-toggle="tab">JavaScript</a></li>
 			  <li><a href="#phpTwo" data-toggle="tab">PHP</a></li>
 			  <li><a href="#pythonTwo" data-toggle="tab">Python</a></li>
+			  <li><a href="#rubyTwo" data-toggle="tab">Ruby</a></li>
 			  <li><a href="#scalaTwo" data-toggle="tab">Scala</a></li>
 			</ul>
 
@@ -13,13 +14,26 @@
 			  <div class="tab-pane" id="jsTwo"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="phpTwo"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="pythonTwo"><pre class="pull-right prettyprint col-md-12"></pre></div>
+			  <div class="tab-pane" id="rubyTwo"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="scalaTwo"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			</div>
 
 <script>
-$("#javaTwo pre").load("java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersDownloadFile.java")
-$("#jsTwo pre").load("js/tutorials/listFoldersDownloadFile.js")
-$("#phpTwo pre").load("php/tutorials/listFoldersDownloadFile.php")
-$("#pythonTwo pre").load("python/tutorials/listFoldersDownloadFile.py")
-$("#scalaTwo pre").load("scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersDownloadFile.scala")
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIdoc/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaTwo"] = "java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersDownloadFile.java"
+codeMap["jsTwo"] = "js/tutorials/listFoldersDownloadFile.js"
+codeMap["phpTwo"] = "php/tutorials/listFoldersDownloadFile.php"
+codeMap["pythonTwo"] = "python/tutorials/listFoldersDownloadFile.py"
+codeMap["rubyTwo"] = "ruby/tutorials/listFoldersDownloadFile.rb"
+codeMap["scalaTwo"] = "scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersDownloadFile.scala"
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
 </script>

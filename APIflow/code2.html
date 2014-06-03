@@ -19,10 +19,22 @@
 			</div>
 
 <script>
-$("#javaTwo pre").load("java/apiflow/src/main/java/io/point/apiflow/tutorials/SimpleMsg.java")
-$("#jsTwo pre").load("js/tutorials/simpleMsg.js")
-$("#phpTwo pre").load("php/tutorials/showSimpleMsg.php")
-$("#pythonTwo pre").load("python/tutorials/simpleMsg.py")
-$("#rubyTwo pre").load("ruby/tutorials/simpleMsg.rb")
-$("#scalaTwo pre").load("scala/apiflow/src/main/scala/io/point/apiflow/tutorials/SimpleMsg.scala")
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIflow/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaTwo"] = "java/apiflow/src/main/java/io/point/apiflow/tutorials/SimpleMsg.java"
+codeMap["jsTwo"] = "js/tutorials/simpleMsg.js"
+codeMap["phpTwo"] = "php/tutorials/showSimpleMsg.php"
+codeMap["pythonTwo"] = "python/tutorials/simpleMsg.py"
+codeMap["rubyTwo"] = "ruby/tutorials/simpleMsg.rb"
+codeMap["scalaTwo"] = "scala/apiflow/src/main/scala/io/point/apiflow/tutorials/SimpleMsg.scala"
+
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
 </script>

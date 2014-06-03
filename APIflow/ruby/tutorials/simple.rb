@@ -17,4 +17,4 @@ for p in processtypes
 			print(res)
 		end
 	end		
-end	
+end

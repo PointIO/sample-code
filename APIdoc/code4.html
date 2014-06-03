@@ -4,6 +4,7 @@
 			  <li><a href="#jsFour" data-toggle="tab">JavaScript</a></li>
 			  <li><a href="#phpFour" data-toggle="tab">PHP</a></li>
 			  <li><a href="#pythonFour" data-toggle="tab">Python</a></li>
+			  <li><a href="#rubyFour" data-toggle="tab">Ruby</a></li>
 			  <li><a href="#scalaFour" data-toggle="tab">Scala</a></li>
 			</ul>
 
@@ -13,13 +14,26 @@
 			  <div class="tab-pane" id="jsFour"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="phpFour"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="pythonFour"><pre class="pull-right prettyprint col-md-12"></pre></div>
+			  <div class="tab-pane" id="rubyFour"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			  <div class="tab-pane" id="scalaFour"><pre class="pull-right prettyprint col-md-12"></pre></div>
 			</div>
 
 <script>
-$("#javaFour pre").load("java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersCheckInCheckOut.java")
-$("#jsFour pre").load("js/tutorials/listFoldersCheckInCheckOut.js")
-$("#phpFour pre").load("php/tutorials/listFoldersCheckInCheckOut.php")
-$("#pythonFour pre").load("python/tutorials/listFoldersCheckInCheckOut.py")
-$("#scalaFour pre").load("scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersCheckInCheckOut.scala")
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIdoc/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaFour"] = "java/apidoc/src/main/java/io/point/apidoc/tutorials/ListFoldersCheckInCheckOut.java"
+codeMap["jsFour"] = "js/tutorials/listFoldersCheckInCheckOut.js"
+codeMap["phpFour"] = "php/tutorials/listFoldersCheckInCheckOut.php"
+codeMap["pythonFour"] = "python/tutorials/listFoldersCheckInCheckOut.py"
+codeMap["rubyFour"] = "ruby/tutorials/listFoldersCheckInCheckOut.rb"
+codeMap["scalaFour"] = "scala/apidoc/src/main/scala/io/point/apidoc/tutorials/ListFoldersCheckInCheckOut.scala"
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
 </script>

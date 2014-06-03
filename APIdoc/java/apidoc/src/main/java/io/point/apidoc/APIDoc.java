@@ -121,7 +121,7 @@ public class APIDoc {
         try {
             res = httpclient.execute(httpGet);
             String resBody = EntityUtils.toString(res.getEntity());
-//            System.out.println(resBody);
+            System.out.println(resBody);
             response = mapper.readValue(resBody, JsonNode.class).get("RESULT").asText();
         } catch (ClientProtocolException e) {
             e.printStackTrace();

@@ -32,7 +32,7 @@ class APIDoc
 		http = Net::HTTP.new(uri.host, uri.port)
 		req = Net::HTTP::Get.new(uri.path)
 		req["Authorization"] = sessionKey
-		req.set_form_data({"folderId" => folderId})
+		req.set_form_data({"folderid" => folderId})
 
 		res = http.request(req)
 		JSON.parse(res.body)["RESULT"]["DATA"]
@@ -43,7 +43,7 @@ class APIDoc
 		http = Net::HTTP.new(uri.host, uri.port)
 		req = Net::HTTP::Get.new(uri.path)
 		req["Authorization"] = sessionKey
-		req.set_form_data({"folderId" => folderId, "fileId" => fileId, "fileName" => fileName})
+		req.set_form_data({"folderid" => folderId, "fileid" => fileId, "filename" => fileName})
 
 		res = http.request(req)
 		JSON.parse(res.body)["RESULT"]["DATA"]
@@ -149,13 +149,3 @@ class APIDoc
 		JSON.parse(res.body)["RESULT"]["DATA"]
 	end
 end
-
-email, password, apiKey = "", "", ""
-
-APIDoc = APIDoc.new(email, password, apiKey)
-key = APIDoc.sessionKey()
-rules = APIDoc.listAccessRules(key)
-folders = APIDoc.listFolders(key, rules[2][1])
-
-upload = APIDoc.fileUpload(key, folders[0][16], "test.txt", "test.txt", "upload.txt")
-puts upload

@@ -3,7 +3,7 @@
     "apiVersion": "2.0",
     "swaggerVersion": "1.1",
     "nickname": "Point.io API",
-    "basePath": "http://www.point.io/sites/default/files",
+    "basePath": "http://localhost/sample-code/APIflow/tutorials",
     "apis": [
         {
             "path": "/FlowTutorialOne.json",

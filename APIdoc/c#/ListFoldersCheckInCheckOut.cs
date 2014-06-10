@@ -22,12 +22,18 @@ namespace Pio{
             ArrayList folders = APIDoc.listFolders(sessionKey, folderId);
             ArrayList file = folders[5] as ArrayList;
 
+            //checkout
+            APIDoc.checkout(sessionKey, file[16] as string, file[0] as string, file[1] as string);
+
             //download
             String downloadUrl = APIDoc.fileDownload(sessionKey, file[16] as string, file[0] as string, file[1] as string);
 
             //upload
-            byte[] fileBytes = System.IO.File.ReadAllBytes("test.txt");
-            String res = APIDoc.fileUpload(sessionKey, file[16] as string, file[0] as string, file[1] as string, fileBytes);
+            byte[] fileBytes = System.IO.File.ReadAllBytes("test.pdf");
+            APIDoc.fileUpload(sessionKey, file[16] as string, file[0] as string, file[1] as string, fileBytes);
+
+            //checkin
+            APIDoc.checkin(sessionKey, file[16] as string, file[0] as string, file[1] as string);
         }
     }
 }

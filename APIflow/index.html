@@ -1,0 +1,87 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans:400,700"/>
+		<link rel="stylesheet" type="text/css" href="public/css/hightlight.default.css"/>
+		<link rel="stylesheet" type="text/css" href="public/css/screen.css"/>
+		<link rel="stylesheet" type="text/css" href="public/css/prettify.css"/>
+
+		<script type="text/javascript" src="public/js/jquery-1.9.1.js"></script>
+		<script type="text/javascript" src="public/js/jquery.slideto.min.js"></script>
+		<script type="text/javascript" src="public/js/jquery.wiggle.min.js"></script>
+		<script type="text/javascript" src="public/js/jquery.ba-bbq.min.js"></script>
+		<script type="text/javascript" src="public/js/handlebars-1.0.0.js"></script>
+		<script type="text/javascript" src="public/js/underscore-min.js"></script>
+		<script type="text/javascript" src="public/js/backbone-min.js"></script>
+		<script type="text/javascript" src="public/js/swagger.js"></script>
+		<script type="text/javascript" src="public/js/swagger-ui.js"></script>
+		<script type="text/javascript" src="public/js/highlight.7.3.pack.js"></script>
+	    <script type="text/javascript" src="public/js/prettify.js"></script>
+	    
+	    <script type="text/javascript" src="public/js/prettify.js"></script>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div id="message-bar" class="swagger-ui-wrap col-md-6">&nbsp;</div><div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+			</div>					
+		</div>
+	</body>
+</div>	
+</html>
+<script>
+
+$(document).ready(function () {
+	prettyPrint();
+
+	window.swaggerUi = new SwaggerUi({
+	    // discoveryUrl: "http://point.io/sites/default/files/APIFlow.json",
+	    discoveryUrl: "http://localhost/sample-code/APIflow/tutorials/APIFlow.json",
+	    dom_id:"swagger-ui-container",
+	    supportHeaderParams: true,
+	    supportedSubmitMethods: ['get', 'post', 'put'],
+	    onComplete: function(swaggerApi, swaggerUi){
+	    	if(console) {
+	            console.log("Loaded SwaggerUI")
+	            // console.log(swaggerApi);
+	            // console.log(swaggerUi);
+	            $(".endpoints").addClass("col-md-6")
+	            $('li[id^="resource_"]').addClass("row")
+
+				$.ajaxSetup ({
+				    // Disable caching of AJAX responses
+				    cache: false
+				});
+	            
+	            $("#resource_FlowTutorialOne\\.json").append('<div id="FlowTutorialOneCode" class="hide"></div>')
+				$( "#FlowTutorialOneCode" ).load( "code1.html" );	            
+
+				$("#resource_FlowTutorialTwo\\.json").append('<div id="FlowTutorialTwoCode" class="hide"></div>')
+				$( "#FlowTutorialTwoCode" ).load( "code2.html" );	            
+
+				// $("#resource_FlowTutorialThree\\.json").append('<div id="FlowTutorialThreeCode" class="hide"></div>')
+				// $( "#FlowTutorialThreeCode" ).load( "code3.html" );	            
+
+				// $("#resource_FlowTutorialFour\\.json").append('<div id="FlowTutorialFourCode" class="hide"></div>')
+				// $( "#FlowTutorialFourCode" ).load( "code4.html" );	            
+
+				// $("#resource_FlowTutorialFive\\.json").append('<div id="FlowTutorialFiveCode" class="hide"></div>')
+				// $( "#FlowTutorialFiveCode" ).load( "code5.html" );	            
+	        }
+	      $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+	    },
+	    onFailure: function(data) {
+	    	if(console) {
+	            console.log("Unable to Load SwaggerUI");
+	            console.log(data);
+	        }
+	    },
+	    docExpansion: "none"
+	});
+
+	window.swaggerUi.load();	
+});
+
+</script>

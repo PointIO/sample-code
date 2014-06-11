@@ -167,7 +167,7 @@ namespace Pio{
             return dict;
         }
 
-        public static ArrayList listStorageSites(String sessionKey) {
+        public static ArrayList listStorageTypes(String sessionKey) {
             WebRequest req = WebRequest.Create(BASE + "storagetypes/list.json");
             req.Headers.Add("Authorization", sessionKey);
 
@@ -193,7 +193,7 @@ namespace Pio{
             return dict["RESULT"]["DATA"];
         }
 
-        public static Dictionary<string, boolean> defaultFlags = new Dictionary<string, boolean>(){
+        public static Dictionary<string, bool> defaultFlags = new Dictionary<string, bool>(){
             {"enabled", true},
             {"loggingEnabled", false},
             {"indexingEnabled", false},
@@ -202,7 +202,41 @@ namespace Pio{
             {"checkinCheckout", false}
         };
 
-        
+        public static Dictionary<string,dynamic> addStorageSite(String sessionKey, int siteTypeId, String name, Dictionary<string, bool> flags, String paramsJson){
+            Dictionary<string, object> multipartForm = new Dictionary<string, object>(){
+                {"siteTypeId", siteTypeId},
+                {"name", name},
+                {"siteArguments", paramsJson.ToString()}
+            };
+
+            foreach(KeyValuePair<string, bool> entry in flags){
+                multipartForm.Add(entry.Key, entry.Value ? "1" : "0");                
+            }
+
+            string formDataBoundary = String.Format("----------{0:N}", Guid.NewGuid());
+            byte[] formData = GetMultipartFormData(multipartForm, formDataBoundary);
+
+            //POST
+            WebRequest req = WebRequest.Create(BASE + "storagesites/create.json");
+            req.ContentType = "multipart/form-data; boundary=" + formDataBoundary;
+            req.ContentLength = formData.Length;
+            req.Method = "POST"; 
+            req.Headers.Add("Authorization", sessionKey);
+
+            // Send the form data to the request.
+            using (Stream requestStream = req.GetRequestStream()){
+                requestStream.Write(formData, 0, formData.Length);
+                requestStream.Close();
+            }
+
+            WebResponse res = req.GetResponse();
+            String body = new System.IO.StreamReader(res.GetResponseStream()).ReadToEnd().ToString();
+
+            var jss = new JavaScriptSerializer();
+            var dict = jss.Deserialize<Dictionary<string,dynamic>>(body);
+
+            return dict;
+        }        
 
         private static readonly Encoding encoding = Encoding.UTF8;
 

@@ -5,6 +5,7 @@ target
 tmp
 .history
 dist
+*.exe
 **/.idea
 **/workspace.xml
 *.iml

@@ -15,7 +15,9 @@ namespace Pio{
             }
 
             String sessionKey = APIFlow.authenticate(args[0], args[1], args[2]);
-            ArrayList processTypes = APIFlow.listProcessTypes(sessionKey);
+            ArrayList tasks = APIFlow.listTasks(sessionKey);
+            foreach()
+
         }
     }
 }

@@ -30,14 +30,14 @@ var codeMap = {};
 codeMap["javaOne"] = "java/apiflow/src/main/java/io/point/apiflow/tutorials/Simple.java"
 codeMap["cOne"] = "c-sharp/Simple.cs"
 codeMap["jsOne"] = "js/tutorials/simple.js"
-codeMap["phpOne"] = "php/tutorials/showSimple.php"
+codeMap["phpOne"] = "php/tutorials/showSource.php?src=simple.php"
 codeMap["pythonOne"] = "python/tutorials/simple.py"
 codeMap["rubyOne"] = "ruby/tutorials/simple.rb"
 codeMap["scalaOne"] = "scala/apiflow/src/main/scala/io/point/apiflow/tutorials/Simple.scala"
-
 
 for(var key in codeMap){
 	$("#" + key).prepend(source(base + codeMap[key]))
 	$("#" + key + " pre").load(codeMap[key])	
 }
+
 </script>

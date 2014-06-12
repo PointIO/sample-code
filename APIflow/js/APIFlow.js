@@ -79,6 +79,21 @@ function getProcess(sessionKey, processId){
 	return proc	
 }
 
+function listTasks(sessionKey){
+	var proc = {}
+
+	$.ajax({
+	  type: "GET",
+	  async: false,
+	  url: BASE + "tasks?Authorization=" + sessionKey,
+	  success: function(data){
+	  	proc = data.RESPONSE.GROUPS[0].TASKS
+	  }
+	});	
+
+	return proc	
+}
+
 function completeTask(sessionKey, taskId){
 	var res = {}
 

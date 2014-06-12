@@ -79,6 +79,20 @@ function getProcess($sessionKey, $processId){
 	return json_decode($response, true)["RESPONSE"]["PROCESS"];	
 }
 
+function listTasks($sessionKey){
+	global $BASE;
+	$bodyMap= array("Authorization" => $sessionKey);
+	$paramStr = http_build_query($bodyMap, '', '&');
+
+	$ch = curl_init($BASE . "tasks?" . $paramStr);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+	$response = curl_exec($ch);
+	curl_close($ch);
+
+	return json_decode($response, true)["RESPONSE"]["GROUPS"][0]["TASKS"];	
+}
+
 function completeTask($sessionKey, $taskId){
 	global $BASE;
 	$bodyMap= array("Authorization" => $sessionKey, "");

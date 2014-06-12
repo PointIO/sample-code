@@ -28,7 +28,6 @@ namespace Pio{
             return dict["RESULT"]["SESSIONKEY"];
         }
 
-
         public static ArrayList listProcessTypes(String sessionKey) {
             WebRequest req = WebRequest.Create(BASE + "processtypes?Authorization=" + sessionKey);
             WebResponse res = req.GetResponse();
@@ -57,6 +56,17 @@ namespace Pio{
             var dict = jss.Deserialize<Dictionary<string,dynamic>>(body);
 
             return dict["LINKURL"];
+        }
+
+        public static ArrayList listTasks(String sessionKey) {
+            WebRequest req = WebRequest.Create(BASE + "tasks?Authorization=" + sessionKey);
+            WebResponse res = req.GetResponse();
+            String body = new System.IO.StreamReader(res.GetResponseStream()).ReadToEnd().ToString();
+
+            var jss = new JavaScriptSerializer();
+            var dict = jss.Deserialize<Dictionary<string,dynamic>>(body);
+            
+            return dict["RESPONSE"]["GROUPS"][0]["TASKS"];
         }
 
         private static readonly Encoding encoding = Encoding.UTF8;

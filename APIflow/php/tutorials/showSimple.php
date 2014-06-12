@@ -1,1 +1,0 @@
-<?php show_source("simple.php"); ?>

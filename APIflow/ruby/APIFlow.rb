@@ -55,6 +55,12 @@ class APIFlow
 		JSON.parse(res.body)["RESPONSE"]["PROCESS"]
 	end		
 
+	def listTasks(sessionKey)
+		uri = URI(@BASE + "tasks?Authorization=" + sessionKey)
+		res = Net::HTTP.get_response(uri)
+		JSON.parse(res.body)["RESPONSE"]["GROUPS"][0]["TASKS"]
+	end	
+
 	def completeTask(sessionKey, taskId, bodyJson = "{}")
 		uri = URI(@BASE + "tasks/" + taskId)
 

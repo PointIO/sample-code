@@ -32,6 +32,11 @@ def getProcess(sessionKey, processId):
 	r = requests.get(BASE + "processes/" + processId, params=params)
 	return r.json()["RESPONSE"]["PROCESS"]
 
+def listTasks(sessionKey):
+	params =  {'Authorization' :  sessionKey}
+	r = requests.get(BASE + "tasks", params=params)
+	return r.json()["RESPONSE"]["GROUPS"]["TASKS"]	
+
 def completeTask(sessionKey, taskId, bodyJson="{}"):
 	params =  {'Authorization' :  sessionKey}
 	headers = {'content-type': 'application/json'}

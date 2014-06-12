@@ -1,0 +1,42 @@
+<div class="col-md-6">
+	<ul class="nav nav-tabs">
+	  <li class="active"><a href="#javaThree" data-toggle="tab">Java</a></li>
+	  <li><a href="#cThree" data-toggle="tab">C#</a></li>
+	  <li><a href="#jsThree" data-toggle="tab">JavaScript</a></li>
+	  <li><a href="#phpThree" data-toggle="tab">PHP</a></li>
+	  <li><a href="#pythonThree" data-toggle="tab">Python</a></li>
+	  <li><a href="#rubyThree" data-toggle="tab">Ruby</a></li>
+	  <li><a href="#scalaThree" data-toggle="tab">Scala</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+	  <div class="tab-pane active" id="javaThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="cThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="jsThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="phpThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="pythonThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="rubyThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	  <div class="tab-pane" id="scalaThree"><pre class="pull-right prettyprint col-md-12"></pre></div>
+	</div>
+</div>
+<script>
+var base = 'https://github.com/PointIO/sample-code/tree/master/APIflow/'
+function source(url){
+	return '<a class="pull-right" target="_blank" href="' + url + '"><i class="fa fa-github"></i> Source</a>'
+}
+
+var codeMap = {};
+codeMap["javaThree"] = "java/apiflow/src/main/java/io/point/apiflow/tutorials/SimpleMsg.java"
+codeMap["cThree"] = "c-sharp/ListTasks.cs"
+codeMap["jsThree"] = "js/tutorials/simpleMsg.js"
+codeMap["phpThree"] = "php/tutorials/showSimpleMsg.php"
+codeMap["pythonThree"] = "python/tutorials/simpleMsg.py"
+codeMap["rubyThree"] = "ruby/tutorials/simpleMsg.rb"
+codeMap["scalaThree"] = "scala/apiflow/src/main/scala/io/point/apiflow/tutorials/SimpleMsg.scala"
+
+for(var key in codeMap){
+	$("#" + key).prepend(source(base + codeMap[key]))
+	$("#" + key + " pre").load(codeMap[key])	
+}
+</script>
